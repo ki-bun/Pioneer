@@ -1,0 +1,10 @@
+Pioneer is an open source tool to keep track of progress in an efficient way than using a notepad. Whether you are reading a book, .PDF, .EPUB, watching playlists, anime episodes, manga chapters, or anything else with a progress, Pioneer will act as an inventory to manage them to avoid forgetting what you have started. 
+
+If you have experienced reading multiple PDF files or tracking your watching or reading progress manually through a notepad or through separate services, this app will make things easier for you. 
+
+Features include:
+* Material 3 dynamic theme
+* Local and offline progress tracking, no accounts or internet connection required
+* Adding, deleting, and editing progress
+* Privacy focused progress tracking app with no data collection, analytics, and telemetery
+* Optional maximum value
