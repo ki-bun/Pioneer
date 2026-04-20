@@ -1,4 +1,4 @@
-<img width="80" height="80" align="left" alt"Pioneer Icon" src="assets/icon.png">
+<img width="80" height="80" align="left" alt="Pioneer Icon" src="assets/icon.png">
 
 # Pioneer
 
