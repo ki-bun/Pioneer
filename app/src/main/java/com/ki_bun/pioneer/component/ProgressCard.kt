@@ -1,4 +1,4 @@
-package com.esperime.progresstracker.component
+package com.ki_bun.pioneer.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,10 +38,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.esperime.progresstracker.ProgressViewModel
-import com.esperime.progresstracker.R
-import com.esperime.progresstracker.data.Item
-import com.esperime.progresstracker.util.nullToString
+import com.ki_bun.pioneer.ProgressViewModel
+import com.ki_bun.pioneer.R
+import com.ki_bun.pioneer.data.Item
+import com.ki_bun.pioneer.util.nullToString
 
 @Composable
 fun ProgressCard(

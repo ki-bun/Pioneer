@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.esperime.progresstracker"
+    namespace = "com.ki_bun.pioneer"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1

@@ -1,4 +1,4 @@
-package com.esperime.progresstracker.ui.theme
+package com.ki_bun.pioneer.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

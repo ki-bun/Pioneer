@@ -1,4 +1,4 @@
-package com.esperime.progresstracker
+package com.ki_bun.pioneer
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -19,11 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import com.esperime.progresstracker.ui.theme.PioneerTheme
-import com.esperime.progresstracker.data.Item
-import com.esperime.progresstracker.component.ProgressCard
-import com.esperime.progresstracker.data.AppDatabase
-import com.esperime.progresstracker.data.ItemDao
+import com.ki_bun.pioneer.ui.theme.PioneerTheme
+import com.ki_bun.pioneer.data.Item
+import com.ki_bun.pioneer.component.ProgressCard
+import com.ki_bun.pioneer.data.AppDatabase
+import com.ki_bun.pioneer.data.ItemDao
 
 class MainActivity : ComponentActivity() {
 

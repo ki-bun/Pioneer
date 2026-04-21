@@ -1,4 +1,4 @@
-package com.esperime.progresstracker.data
+package com.ki_bun.pioneer.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

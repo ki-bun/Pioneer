@@ -1,4 +1,4 @@
-package com.esperime.progresstracker
+package com.ki_bun.pioneer
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,12 +31,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.esperime.progresstracker.data.Item
-import com.esperime.progresstracker.util.countWarning
-import com.esperime.progresstracker.util.isNumeric
-import com.esperime.progresstracker.util.totalWarning
-import com.esperime.progresstracker.util.validateCount
-import com.esperime.progresstracker.util.validateTotal
+import com.ki_bun.pioneer.data.Item
+import com.ki_bun.pioneer.util.countWarning
+import com.ki_bun.pioneer.util.isNumeric
+import com.ki_bun.pioneer.util.totalWarning
+import com.ki_bun.pioneer.util.validateCount
+import com.ki_bun.pioneer.util.validateTotal
 import kotlinx.coroutines.flow.filter
 
 var showDialog by mutableStateOf(false)
