@@ -12,7 +12,12 @@ android {
         }
     }
 
-    signingConfigs {
+    dependenciesInfo {
+		includeInApk = false
+		includeInBundle = false
+	}
+
+	signingConfigs {
         create("release") {
             storeFile = file("pioneer.jks")
             storePassword = project.findProperty("STORE_PASSWORD") as String
