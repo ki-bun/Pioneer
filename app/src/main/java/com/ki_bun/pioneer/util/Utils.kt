@@ -44,6 +44,8 @@ fun validateTotal(input: Int?, count: String) {
                     "Must be empty or greater than progress"
                 } else ""
             }
+        } else if (count.toIntOrNull() == null) {
+            totalWarning = ""
         }
         }
 }
