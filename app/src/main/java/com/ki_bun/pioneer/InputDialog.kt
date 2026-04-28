@@ -57,6 +57,8 @@ fun InputDialog(progressViewModel: ProgressViewModel) {
     val maxDescription = 100
     val maxCount = 4
 
+    countWarning = "Field cannot be empty"
+
     fun resetValues() {
         inputTitle = ""
         inputCount = ""

@@ -50,6 +50,8 @@ fun EditDialog(
     val maxDescription = 100
     val maxCount = 4
 
+    countWarning = ""
+
     Dialog(
         onDismissRequest = {
             showEditDialog = false
