@@ -83,13 +83,15 @@ fun MyAppNavHost(
                                         } else {
                                             painterResource(id = R.drawable.home_24px)
                                         },
-                                        contentDescription = "Home"
+                                        contentDescription = "Home",
+                                        tint = if (selectedIndex == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                             }
                             Text(
                                 text = "Home",
-                                fontSize = 12.sp
+                                fontSize = 12.sp,
+                                color = if (selectedIndex == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                             )
                         }
 
@@ -118,13 +120,15 @@ fun MyAppNavHost(
                                         } else {
                                             painterResource(id = R.drawable.tag_24px)
                                         },
-                                        contentDescription = "Tags"
+                                        contentDescription = "Tags",
+                                        tint = if (selectedIndex == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                             }
                             Text(
                                 text = "Tags",
-                                fontSize = 12.sp
+                                fontSize = 12.sp,
+                                color = if (selectedIndex == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                             )
                         }
 
@@ -153,13 +157,15 @@ fun MyAppNavHost(
                                         } else {
                                             painterResource(id = R.drawable.settings_24px)
                                         },
-                                        contentDescription = "Settings"
+                                        contentDescription = "Settings",
+                                        tint = if (selectedIndex == 2) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                             }
                             Text(
                                 text = "Settings",
-                                fontSize = 12.sp
+                                fontSize = 12.sp,
+                                color = if (selectedIndex == 2) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
