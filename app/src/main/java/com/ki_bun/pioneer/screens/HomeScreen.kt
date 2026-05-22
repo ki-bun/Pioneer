@@ -60,7 +60,7 @@ fun HomeScreen(progressViewModel: ProgressViewModel) {
         LazyColumn(
             modifier = Modifier.padding(innerPadding)
         ) {
-            items(progressList) { item ->
+            items(progressList, key = { it.id }) { item ->
                 ProgressCard(
                     item,
                     onDelete = {

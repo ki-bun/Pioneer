@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -32,12 +33,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ki_bun.pioneer.screens.HomeScreen
 import com.ki_bun.pioneer.screens.SettingsScreen
+import com.ki_bun.pioneer.screens.TagsScreen
 import com.ki_bun.pioneer.ui.theme.ThemeMode
 import com.ki_bun.pioneer.viewmodel.ProgressViewModel
 
 @Composable
-fun MyAppNavHost(progressViewModel: ProgressViewModel, themeMode: ThemeMode, onThemeModeChange: (ThemeMode) -> Unit) {
+fun MyAppNavHost(
+    progressViewModel: ProgressViewModel,
+    themeMode: ThemeMode,
+    onThemeModeChange: (ThemeMode) -> Unit
+    ) {
 
+    val progressList by progressViewModel.progressList.collectAsState()
     val navController = rememberNavController()
     var selectedIndex by remember { mutableIntStateOf(0) }
 
@@ -51,6 +58,7 @@ fun MyAppNavHost(progressViewModel: ProgressViewModel, themeMode: ThemeMode, onT
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly,
                     ) {
+                        // Home button
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Box(
                                 modifier = Modifier
@@ -84,6 +92,8 @@ fun MyAppNavHost(progressViewModel: ProgressViewModel, themeMode: ThemeMode, onT
                                 fontSize = 12.sp
                             )
                         }
+
+                        // Tags button
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Box(
                                 modifier = Modifier
@@ -99,11 +109,46 @@ fun MyAppNavHost(progressViewModel: ProgressViewModel, themeMode: ThemeMode, onT
                                     modifier = Modifier.width(60.dp),
                                     onClick = {
                                         selectedIndex = 1
-                                        navController.navigate("settings")
+                                        navController.navigate("tagsscreen")
                                     }
                                 ) {
                                     Icon(
                                         painter = if (selectedIndex == 1) {
+                                            painterResource(id = R.drawable.tag_filled_24px)
+                                        } else {
+                                            painterResource(id = R.drawable.tag_24px)
+                                        },
+                                        contentDescription = "Tags"
+                                    )
+                                }
+                            }
+                            Text(
+                                text = "Tags",
+                                fontSize = 12.sp
+                            )
+                        }
+
+                        // Settings button
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Box(
+                                modifier = Modifier
+                                    .background(
+                                        color = if (selectedIndex == 2) {
+                                            MaterialTheme.colorScheme.secondaryContainer
+                                        } else Color.Transparent, shape = CircleShape
+                                    )
+                                    .width(60.dp)
+                                    .height(35.dp)
+                            ) {
+                                IconButton(
+                                    modifier = Modifier.width(60.dp),
+                                    onClick = {
+                                        selectedIndex = 2
+                                        navController.navigate("settings")
+                                    }
+                                ) {
+                                    Icon(
+                                        painter = if (selectedIndex == 2) {
                                             painterResource(id = R.drawable.filled_settings_24px)
                                         } else {
                                             painterResource(id = R.drawable.settings_24px)
@@ -129,6 +174,9 @@ fun MyAppNavHost(progressViewModel: ProgressViewModel, themeMode: ThemeMode, onT
         ) {
             composable("homescreen") {
                 HomeScreen(progressViewModel)
+            }
+            composable("tagsscreen") {
+                    TagsScreen(tags = progressList)
             }
             composable("settings") {
                 SettingsScreen(
