@@ -100,7 +100,7 @@ fun ProgressCard(
                 color = MaterialTheme.colorScheme.surfaceContainer,
                 modifier = Modifier
                     .width(360.dp)
-                    .clip(if (progressList.imagePath != null) RoundedCornerShape(10.dp) else RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
+                    .clip(if (progressList.imagePath != null) RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp) else RoundedCornerShape(10.dp))
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
