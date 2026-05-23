@@ -89,7 +89,7 @@ fun ProgressCard(
                             Brush.verticalGradient(
                                 colors = listOf(
                                     Color.Transparent,
-                                    MaterialTheme.colorScheme.surfaceContainerLow
+                                    MaterialTheme.colorScheme.surfaceContainer
                                 )
                             )
                         )
@@ -97,7 +97,7 @@ fun ProgressCard(
             }
         }
             Surface(
-                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                color = MaterialTheme.colorScheme.surfaceContainer,
                 modifier = Modifier
                     .width(360.dp)
                     .clip(if (progressList.imagePath != null) RoundedCornerShape(10.dp) else RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
@@ -192,7 +192,8 @@ fun ProgressCard(
                             Text(text = "${(indicator * 100).toInt()} %", fontSize = 14.sp)
                             LinearProgressIndicator(
                                 modifier = Modifier.padding(start = 5.dp).fillMaxWidth(),
-                                progress = { indicator }
+                                progress = { indicator },
+                                trackColor = MaterialTheme.colorScheme.surfaceContainerHighest
                             )
                         }
                         Spacer(modifier = Modifier.height(10.dp))
@@ -220,8 +221,8 @@ fun ProgressCard(
                                     }
                                 },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary
                                 ),
                                 modifier = Modifier
                                     .width(50.dp)
@@ -245,8 +246,8 @@ fun ProgressCard(
                                     }
                                 },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary
                                 ),
                                 modifier = Modifier
                                     .width(50.dp)

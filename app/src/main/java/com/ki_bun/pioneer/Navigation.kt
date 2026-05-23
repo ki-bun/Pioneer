@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
@@ -52,7 +53,6 @@ fun MyAppNavHost(
         bottomBar = {
             BottomAppBar(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                contentColor = MaterialTheme.colorScheme.onSurface,
                 actions = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -84,14 +84,15 @@ fun MyAppNavHost(
                                             painterResource(id = R.drawable.home_24px)
                                         },
                                         contentDescription = "Home",
-                                        tint = if (selectedIndex == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                        tint = if (selectedIndex == 0) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                             }
                             Text(
                                 text = "Home",
                                 fontSize = 12.sp,
-                                color = if (selectedIndex == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                color = if (selectedIndex == 0) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontWeight = if (selectedIndex == 0) FontWeight.Bold else FontWeight.Normal
                             )
                         }
 
@@ -121,14 +122,15 @@ fun MyAppNavHost(
                                             painterResource(id = R.drawable.tag_24px)
                                         },
                                         contentDescription = "Tags",
-                                        tint = if (selectedIndex == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                        tint = if (selectedIndex == 1) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                             }
                             Text(
                                 text = "Tags",
                                 fontSize = 12.sp,
-                                color = if (selectedIndex == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                color = if (selectedIndex == 1) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontWeight = if (selectedIndex == 1) FontWeight.Bold else FontWeight.Normal
                             )
                         }
 
@@ -158,14 +160,15 @@ fun MyAppNavHost(
                                             painterResource(id = R.drawable.settings_24px)
                                         },
                                         contentDescription = "Settings",
-                                        tint = if (selectedIndex == 2) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                        tint = if (selectedIndex == 2) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                             }
                             Text(
                                 text = "Settings",
                                 fontSize = 12.sp,
-                                color = if (selectedIndex == 2) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                color = if (selectedIndex == 2) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontWeight = if (selectedIndex == 2) FontWeight.Bold else FontWeight.Normal
                             )
                         }
                     }
