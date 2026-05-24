@@ -15,14 +15,14 @@
 	<img width="200" alt="screenshot_4" src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot_4.png">
 </p>
 
-## Installation
+## 📥 Installation
 [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.ki_bun.pioneer)
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height="80">](https://apt.izzysoft.de/fdroid/index/apk/com.ki_bun.pioneer)
 
-## Features
-- Material 3 dynamic theme
+## ✨ Features
+- Material 3 dynamic theme and design
 - Display tags and images selected from local storage
-- Optional description and maximum value
-- Option to edit and delete progress
+- Edit and delete progress
 - Import and export to CSV
 - Annotate links in description by enclosing the url in `<` and `>`
+- Filter items based on tags
