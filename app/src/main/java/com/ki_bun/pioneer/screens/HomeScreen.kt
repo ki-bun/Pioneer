@@ -1,9 +1,11 @@
 package com.ki_bun.pioneer.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,22 +27,32 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.ki_bun.pioneer.viewmodel.ProgressViewModel
 import com.ki_bun.pioneer.R
 import com.ki_bun.pioneer.component.ProgressCard
 import com.ki_bun.pioneer.data.Item
+import com.ki_bun.pioneer.ui.theme.ThemeMode
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.flatMap
 
 @Composable
-fun HomeScreen(progressViewModel: ProgressViewModel, tags: List<Item>) {
-
+fun HomeScreen(
+    progressViewModel: ProgressViewModel,
+    tags: List<Item>,
+    themeMode: ThemeMode,
+    onThemeModeChange: (ThemeMode) -> Unit
+) {
     var selectedItem by remember { mutableStateOf<Item?>(null) }
     var selectedTag by remember { mutableStateOf<String?>(null) }
     val filteredItems = tags.filter {
         selectedTag == null || selectedTag!! in it.tags
     }
+    val navController = rememberNavController()
+    var showFilter by remember { mutableStateOf(false) }
 
     if (showDialog) {
         InputDialog(
@@ -53,7 +66,6 @@ fun HomeScreen(progressViewModel: ProgressViewModel, tags: List<Item>) {
     }
 
     Scaffold(
-        contentWindowInsets = WindowInsets(0),
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showDialog = true },
@@ -73,17 +85,46 @@ fun HomeScreen(progressViewModel: ProgressViewModel, tags: List<Item>) {
         Column(
             modifier = Modifier.padding(innerPadding)
         ) {
-            LazyRow {
-                item {
-                    tags.flatMap { it.tags }.groupingBy { it }.eachCount().forEach { (tag,_) ->
-                        FilterChip(
-                            selected = selectedTag == tag,
-                            onClick = {
-                                selectedTag = if (selectedTag == tag) null else tag
-                            },
-                            label = { Text(text = tag) },
-                            modifier = Modifier.padding(horizontal = 5.dp)
-                        )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 10.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                IconButton(
+                    onClick = {
+                        navController.navigate("settings")
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.settings_24px),
+                        contentDescription = "Settings"
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        showFilter = !showFilter
+                    }
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.filter_alt_24px),
+                        contentDescription = "Show filter by tags"
+                    )
+                }
+            }
+            if (showFilter) {
+                LazyRow {
+                    item {
+                        tags.flatMap { it.tags }.groupingBy { it }.eachCount().forEach { (tag,_) ->
+                            FilterChip(
+                                selected = selectedTag == tag,
+                                onClick = {
+                                    selectedTag = if (selectedTag == tag) null else tag
+                                },
+                                label = { Text(text = tag) },
+                                modifier = Modifier.padding(horizontal = 5.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -105,6 +146,7 @@ fun HomeScreen(progressViewModel: ProgressViewModel, tags: List<Item>) {
                     Spacer(modifier = Modifier.height(100.dp))
                 }
             }
+
         }
         if (isEditing && selectedItem != null) {
             selectedItem?.let { item ->
@@ -121,4 +163,21 @@ fun HomeScreen(progressViewModel: ProgressViewModel, tags: List<Item>) {
             }
         }
     }
+
+    // Navigation
+    NavHost(
+        navController = navController,
+        startDestination = "homescreen",
+    ) {
+        composable("homescreen") {}
+        composable("settings") {
+            SettingsScreen(
+                onThemeModeChange = onThemeModeChange,
+                themeMode = themeMode,
+                progressViewModel = progressViewModel,
+                navController
+            )
+        }
+    }
+
 }

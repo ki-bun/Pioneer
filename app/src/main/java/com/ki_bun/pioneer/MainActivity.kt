@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,6 +17,7 @@ import com.ki_bun.pioneer.data.AppDatabase
 import com.ki_bun.pioneer.data.ItemDao
 import com.ki_bun.pioneer.data.loadThemeMode
 import com.ki_bun.pioneer.data.saveThemeMode
+import com.ki_bun.pioneer.screens.HomeScreen
 import com.ki_bun.pioneer.ui.theme.PioneerTheme
 import com.ki_bun.pioneer.ui.theme.ThemeMode
 import com.ki_bun.pioneer.viewmodel.ProgressViewModel
@@ -41,7 +43,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             var themeMode by remember { mutableStateOf(ThemeMode.AUTO) }
-
+            val progressList by progressViewModel.progressList.collectAsState()
 
             LaunchedEffect(Unit) {
                 lifecycleScope.launch {
@@ -53,7 +55,11 @@ class MainActivity : ComponentActivity() {
             }
 
                 PioneerTheme(themeMode = themeMode) {
-                    MyAppNavHost(progressViewModel, themeMode = themeMode, onThemeModeChange = { selectedTheme ->
+                   HomeScreen(
+                       progressViewModel,
+                       tags = progressList,
+                       themeMode = themeMode,
+                       onThemeModeChange = { selectedTheme ->
                         themeMode = selectedTheme
                         lifecycleScope.launch {
                             saveThemeMode(this@MainActivity, selectedTheme)
