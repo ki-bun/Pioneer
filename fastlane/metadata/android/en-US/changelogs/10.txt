@@ -1,0 +1,8 @@
+- New filter button based on tags
+- Remove bottom navbar and move settings button beside the filter button
+- Clean up code, remove unused drawables and files
+- Make tags unclickable in progress cards
+- Move NavHost to HomeScreen.kt
+- Remove font weights on section titles in settings
+- Add back button and title in settings page
+- Improve monochrome app icon
