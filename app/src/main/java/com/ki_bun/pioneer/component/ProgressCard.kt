@@ -1,5 +1,6 @@
 package com.ki_bun.pioneer.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -201,9 +203,17 @@ fun ProgressCard(
                         FlowRow {
                             progressList.tags.forEach { tag ->
                                 AssistChip(
+                                    enabled = false,
                                     onClick = {},
                                     label = { Text(tag) },
-                                    modifier = Modifier.padding(horizontal = 5.dp)
+                                    modifier = Modifier.padding(horizontal = 5.dp),
+                                    colors = AssistChipDefaults.assistChipColors(
+                                        disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                    ),
+                                    border = BorderStroke(
+                                        color = Color.Gray,
+                                        width = 1.dp
+                                    )
                                 )
                             }
                         }
