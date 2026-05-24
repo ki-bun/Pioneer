@@ -1,5 +1,6 @@
 package com.ki_bun.pioneer.screens
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,13 +8,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,12 +28,18 @@ import com.ki_bun.pioneer.viewmodel.ProgressViewModel
 import com.ki_bun.pioneer.R
 import com.ki_bun.pioneer.component.ProgressCard
 import com.ki_bun.pioneer.data.Item
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.flatMap
 
 @Composable
-fun HomeScreen(progressViewModel: ProgressViewModel) {
+fun HomeScreen(progressViewModel: ProgressViewModel, tags: List<Item>) {
 
-    val progressList by progressViewModel.progressList.collectAsState()
     var selectedItem by remember { mutableStateOf<Item?>(null) }
+    var selectedTag by remember { mutableStateOf<String?>(null) }
+    val filteredItems = tags.filter {
+        selectedTag == null || selectedTag!! in it.tags
+    }
 
     if (showDialog) {
         InputDialog(
@@ -61,24 +70,40 @@ fun HomeScreen(progressViewModel: ProgressViewModel) {
         },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
-        LazyColumn(
+        Column(
             modifier = Modifier.padding(innerPadding)
         ) {
-            items(progressList, key = { it.id }) { item ->
-                ProgressCard(
-                    item,
-                    onDelete = {
-                        progressViewModel.deleteItem(item)
-                    },
-                    onEdit = {
-                        selectedItem = item
-                        isEditing = true
-                    },
-                    progressViewModel = progressViewModel
-                )
+            LazyRow {
+                item {
+                    tags.flatMap { it.tags }.groupingBy { it }.eachCount().forEach { (tag,_) ->
+                        FilterChip(
+                            selected = selectedTag == tag,
+                            onClick = {
+                                selectedTag = if (selectedTag == tag) null else tag
+                            },
+                            label = { Text(text = tag) },
+                            modifier = Modifier.padding(horizontal = 5.dp)
+                        )
+                    }
+                }
             }
-            item {
-                Spacer(modifier = Modifier.height(100.dp))
+            LazyColumn {
+                items(filteredItems) { item ->
+                    ProgressCard(
+                        item,
+                        onDelete = {
+                            progressViewModel.deleteItem(item)
+                        },
+                        onEdit = {
+                            selectedItem = item
+                            isEditing = true
+                        },
+                        progressViewModel = progressViewModel
+                    )
+                }
+                item {
+                    Spacer(modifier = Modifier.height(100.dp))
+                }
             }
         }
         if (isEditing && selectedItem != null) {
