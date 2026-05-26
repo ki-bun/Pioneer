@@ -1,4 +1,4 @@
-val hasSigning = project.hasProperty("STORE_PASSWORD") && project.hasProperty("KEY_ALIAS") && project.hasProperty("KEY_PASSWORD")
+val hasSigning = project.hasProperty("PIONEER_STORE_PASSWORD") && project.hasProperty("PIONEER_KEY_ALIAS") && project.hasProperty("PIONEER_KEY_PASSWORD")
 
 plugins {
     alias(libs.plugins.android.application)
@@ -23,9 +23,9 @@ android {
 		if (hasSigning) {
 			create("release") {
 				storeFile = file("pioneer.jks")
-				storePassword = project.findProperty("STORE_PASSWORD") as String
-				keyAlias = project.findProperty("KEY_ALIAS") as String
-				keyPassword = project.findProperty("KEY_PASSWORD") as String
+				storePassword = project.findProperty("PIONEER_STORE_PASSWORD") as String
+				keyAlias = project.findProperty("PIONEER_KEY_ALIAS") as String
+				keyPassword = project.findProperty("PIONEER_KEY_PASSWORD") as String
 			}
 		}
 	}
