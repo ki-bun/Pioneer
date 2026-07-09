@@ -27,16 +27,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
 import com.ki_bun.pioneer.viewmodel.ProgressViewModel
 import com.ki_bun.pioneer.R
 import com.ki_bun.pioneer.component.ProgressCard
 import com.ki_bun.pioneer.data.Item
-import com.ki_bun.pioneer.screens.settings.BackupScreen
-import com.ki_bun.pioneer.screens.settings.PreferenceScreen
-import com.ki_bun.pioneer.ui.theme.ThemeMode
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.flatMap
@@ -45,15 +40,13 @@ import kotlin.collections.flatMap
 fun HomeScreen(
     progressViewModel: ProgressViewModel,
     tags: List<Item>,
-    themeMode: ThemeMode,
-    onThemeModeChange: (ThemeMode) -> Unit
+    navController: NavController
 ) {
     var selectedItem by remember { mutableStateOf<Item?>(null) }
     var selectedTag by remember { mutableStateOf<String?>(null) }
     val filteredItems = tags.filter {
         selectedTag == null || selectedTag!! in it.tags
     }
-    val navController = rememberNavController()
     var showFilter by remember { mutableStateOf(false) }
 
     if (showDialog) {
@@ -165,24 +158,4 @@ fun HomeScreen(
             }
         }
     }
-
-    // Navigation
-    NavHost(
-        navController = navController,
-        startDestination = "homescreen",
-    ) {
-        composable("homescreen") {}
-        composable("settings") {
-            SettingsScreen(
-                navController
-            )
-        }
-        composable("backupscreen") {
-            BackupScreen(progressViewModel)
-        }
-        composable("preferencescreen") {
-            PreferenceScreen(onThemeModeChange, themeMode)
-        }
-    }
-
 }

@@ -13,11 +13,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.ki_bun.pioneer.data.AppDatabase
 import com.ki_bun.pioneer.data.ItemDao
 import com.ki_bun.pioneer.data.loadThemeMode
 import com.ki_bun.pioneer.data.saveThemeMode
 import com.ki_bun.pioneer.screens.HomeScreen
+import com.ki_bun.pioneer.screens.SettingsScreen
+import com.ki_bun.pioneer.screens.settings.BackupScreen
+import com.ki_bun.pioneer.screens.settings.PreferenceScreen
 import com.ki_bun.pioneer.ui.theme.PioneerTheme
 import com.ki_bun.pioneer.ui.theme.ThemeMode
 import com.ki_bun.pioneer.viewmodel.ProgressViewModel
@@ -44,6 +50,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             var themeMode by remember { mutableStateOf(ThemeMode.AUTO) }
             val progressList by progressViewModel.progressList.collectAsState()
+            val navController = rememberNavController()
 
             LaunchedEffect(Unit) {
                 lifecycleScope.launch {
@@ -55,16 +62,34 @@ class MainActivity : ComponentActivity() {
             }
 
                 PioneerTheme(themeMode = themeMode) {
-                   HomeScreen(
-                       progressViewModel,
-                       tags = progressList,
-                       themeMode = themeMode,
-                       onThemeModeChange = { selectedTheme ->
-                        themeMode = selectedTheme
-                        lifecycleScope.launch {
-                            saveThemeMode(this@MainActivity, selectedTheme)
+                    NavHost(
+                        navController = navController,
+                        startDestination = "homescreen",
+                    ) {
+                        composable("homescreen") {
+                            HomeScreen(
+                                progressViewModel,
+                                tags = progressList,
+                                navController
+                                )
                         }
-                    })
+                        composable("settings") {
+                            SettingsScreen(
+                                navController
+                            )
+                        }
+                        composable("backupscreen") {
+                            BackupScreen(progressViewModel)
+                        }
+                        composable("preferencescreen") {
+                            PreferenceScreen(onThemeModeChange = { selectedTheme ->
+                                themeMode = selectedTheme
+                                lifecycleScope.launch {
+                                    saveThemeMode(this@MainActivity, selectedTheme)
+                                }
+                            }, themeMode)
+                        }
+                    }
                 }
         }
     }
