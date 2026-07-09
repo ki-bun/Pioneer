@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Pioneer" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Pioneer" parent="android:Theme.Material.NoActionBar" />
     <style name="Splash.Theme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_bg</item>
         <item name="postSplashScreenTheme">@style/Theme.Pioneer</item>

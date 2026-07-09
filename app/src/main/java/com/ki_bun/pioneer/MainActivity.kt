@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -62,32 +63,34 @@ class MainActivity : ComponentActivity() {
             }
 
                 PioneerTheme(themeMode = themeMode) {
-                    NavHost(
-                        navController = navController,
-                        startDestination = "homescreen",
-                    ) {
-                        composable("homescreen") {
-                            HomeScreen(
-                                progressViewModel,
-                                tags = progressList,
-                                navController
+                    Surface {
+                        NavHost(
+                            navController = navController,
+                            startDestination = "homescreen",
+                        ) {
+                            composable("homescreen") {
+                                HomeScreen(
+                                    progressViewModel,
+                                    tags = progressList,
+                                    navController
                                 )
-                        }
-                        composable("settings") {
-                            SettingsScreen(
-                                navController
-                            )
-                        }
-                        composable("backupscreen") {
-                            BackupScreen(progressViewModel)
-                        }
-                        composable("preferencescreen") {
-                            PreferenceScreen(onThemeModeChange = { selectedTheme ->
-                                themeMode = selectedTheme
-                                lifecycleScope.launch {
-                                    saveThemeMode(this@MainActivity, selectedTheme)
-                                }
-                            }, themeMode)
+                            }
+                            composable("settings") {
+                                SettingsScreen(
+                                    navController
+                                )
+                            }
+                            composable("backupscreen") {
+                                BackupScreen(progressViewModel)
+                            }
+                            composable("preferencescreen") {
+                                PreferenceScreen(onThemeModeChange = { selectedTheme ->
+                                    themeMode = selectedTheme
+                                    lifecycleScope.launch {
+                                        saveThemeMode(this@MainActivity, selectedTheme)
+                                    }
+                                }, themeMode)
+                            }
                         }
                     }
                 }
