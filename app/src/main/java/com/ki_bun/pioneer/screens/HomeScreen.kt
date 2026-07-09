@@ -34,6 +34,8 @@ import com.ki_bun.pioneer.viewmodel.ProgressViewModel
 import com.ki_bun.pioneer.R
 import com.ki_bun.pioneer.component.ProgressCard
 import com.ki_bun.pioneer.data.Item
+import com.ki_bun.pioneer.screens.settings.BackupScreen
+import com.ki_bun.pioneer.screens.settings.PreferenceScreen
 import com.ki_bun.pioneer.ui.theme.ThemeMode
 import kotlin.collections.component1
 import kotlin.collections.component2
@@ -172,11 +174,14 @@ fun HomeScreen(
         composable("homescreen") {}
         composable("settings") {
             SettingsScreen(
-                onThemeModeChange = onThemeModeChange,
-                themeMode = themeMode,
-                progressViewModel = progressViewModel,
                 navController
             )
+        }
+        composable("backupscreen") {
+            BackupScreen(progressViewModel)
+        }
+        composable("preferencescreen") {
+            PreferenceScreen(onThemeModeChange, themeMode)
         }
     }
 
