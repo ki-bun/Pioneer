@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
+import com.ki_bun.pioneer.Status
 
 @Entity(tableName="items")
 data class Item(
@@ -15,7 +16,8 @@ data class Item(
     val total: Int?,
     @ColumnInfo(defaultValue = "") val tags: List<String> = emptyList(),
     val imagePath: String? = null,
-    val unit: String
+    val unit: String,
+    val status: Status = Status.IN_PROGRESS
 )
 
 class Converters {
@@ -28,5 +30,13 @@ class Converters {
     fun toTags(data: String): List<String> {
         return if (data.isBlank()) emptyList()
         else data.split(",")
+    }
+
+    @TypeConverter
+    fun fromStatus(status: Status): String = status.name
+
+    @TypeConverter
+    fun toStatus(value: String): Status {
+        return Status.entries.find { it.name == value.trim().uppercase() } ?: Status.IN_PROGRESS
     }
 }
