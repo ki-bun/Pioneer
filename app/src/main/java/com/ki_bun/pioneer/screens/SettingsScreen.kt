@@ -59,7 +59,7 @@ fun SettingsScreen(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = 10.dp)
+                        .padding(start = 20.dp)
                 ) {
                     Text(
                         text = "App preferences",
@@ -76,7 +76,7 @@ fun SettingsScreen(
                 }
                 Text(
                     text = ">",
-                    modifier = Modifier.padding(end = 10.dp)
+                    modifier = Modifier.padding(end = 20.dp)
                 )
             }
 
@@ -96,7 +96,7 @@ fun SettingsScreen(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = 10.dp)
+                        .padding(start = 20.dp)
                 ) {
                     Text(
                         text = "Backup",
@@ -113,7 +113,7 @@ fun SettingsScreen(
                 }
                 Text(
                     text = ">",
-                    modifier = Modifier.padding(end = 10.dp)
+                    modifier = Modifier.padding(end = 20.dp)
                 )
             }
 
@@ -133,7 +133,7 @@ fun SettingsScreen(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = 10.dp)
+                        .padding(start = 20.dp)
                 ) {
                     Text(
                         text = "About",
@@ -150,7 +150,7 @@ fun SettingsScreen(
                 }
                 Text(
                     text = ">",
-                    modifier = Modifier.padding(end = 10.dp)
+                    modifier = Modifier.padding(end = 20.dp)
                 )
             }
         }
