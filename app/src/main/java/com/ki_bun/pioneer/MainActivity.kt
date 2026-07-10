@@ -31,6 +31,11 @@ import com.ki_bun.pioneer.viewmodel.ProgressViewModel
 import com.ki_bun.pioneer.viewmodel.ProgressViewModelFactory
 import kotlinx.coroutines.launch
 
+enum class Status {
+    IN_PROGRESS,
+    COMPLETED
+}
+
 class MainActivity : ComponentActivity() {
 
     private val itemDao: ItemDao by lazy {
@@ -71,7 +76,7 @@ class MainActivity : ComponentActivity() {
                             composable("homescreen") {
                                 HomeScreen(
                                     progressViewModel,
-                                    tags = progressList,
+                                    progress = progressList,
                                     navController
                                 )
                             }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ki_bun.pioneer.viewmodel.ProgressViewModel
 import com.ki_bun.pioneer.R
+import com.ki_bun.pioneer.Status
 import com.ki_bun.pioneer.component.ProgressCard
 import com.ki_bun.pioneer.data.Item
 import kotlin.collections.component1
@@ -39,15 +41,19 @@ import kotlin.collections.flatMap
 @Composable
 fun HomeScreen(
     progressViewModel: ProgressViewModel,
-    tags: List<Item>,
+    progress: List<Item>,
     navController: NavController
 ) {
     var selectedItem by remember { mutableStateOf<Item?>(null) }
     var selectedTag by remember { mutableStateOf<String?>(null) }
-    val filteredItems = tags.filter {
-        selectedTag == null || selectedTag!! in it.tags
+    val ongoingItems = progress.filter {
+        (selectedTag == null || selectedTag!! in it.tags) && it.status == Status.IN_PROGRESS
+    }
+    val completedItems = progress.filter {
+        (selectedTag == null || selectedTag!! in it.tags) && it.status == Status.COMPLETED
     }
     var showFilter by remember { mutableStateOf(false) }
+    var showCompleted by remember { mutableStateOf(false) }
 
     if (showDialog) {
         InputDialog(
@@ -110,7 +116,7 @@ fun HomeScreen(
             if (showFilter) {
                 LazyRow {
                     item {
-                        tags.flatMap { it.tags }.groupingBy { it }.eachCount().forEach { (tag,_) ->
+                        progress.flatMap { it.tags }.groupingBy { it }.eachCount().forEach { (tag,_) ->
                             FilterChip(
                                 selected = selectedTag == tag,
                                 onClick = {
@@ -124,7 +130,7 @@ fun HomeScreen(
                 }
             }
             LazyColumn {
-                items(filteredItems) { item ->
+                items(ongoingItems) { item ->
                     ProgressCard(
                         item,
                         onDelete = {
@@ -136,6 +142,29 @@ fun HomeScreen(
                         },
                         progressViewModel = progressViewModel
                     )
+                }
+                item {
+                    Button(
+                        onClick = { showCompleted = !showCompleted },
+                        modifier = Modifier.padding(start = 15.dp, bottom = 10.dp)
+                    ) {
+                        Text(text = if (showCompleted) "Hide Completed" else "Show Completed")
+                    }
+                }
+                if (showCompleted) {
+                    items(completedItems) { item ->
+                        ProgressCard(
+                            item,
+                            onDelete = {
+                                progressViewModel.deleteItem(item)
+                            },
+                            onEdit = {
+                                selectedItem = item
+                                isEditing = true
+                            },
+                            progressViewModel = progressViewModel
+                        )
+                    }
                 }
                 item {
                     Spacer(modifier = Modifier.height(100.dp))

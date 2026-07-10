@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.ki_bun.pioneer.viewmodel.ProgressViewModel
 import com.ki_bun.pioneer.R
+import com.ki_bun.pioneer.Status
 import com.ki_bun.pioneer.data.Item
 import com.ki_bun.pioneer.util.nullToString
 import java.io.File
@@ -264,4 +265,6 @@ fun ProgressCard(
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
+            val newStatus: Status = if (updatedProgress == progressList.total) Status.COMPLETED else Status.IN_PROGRESS
+            progressViewModel.updateItem(progressList.copy(status = newStatus))
         }
