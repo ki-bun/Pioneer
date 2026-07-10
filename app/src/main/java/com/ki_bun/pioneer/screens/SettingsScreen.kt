@@ -116,6 +116,43 @@ fun SettingsScreen(
                     modifier = Modifier.padding(end = 10.dp)
                 )
             }
+
+            // About
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        onClick = {
+                            navController.navigate("aboutscreen")
+                        }
+                    )
+                    .padding(vertical = 20.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 10.dp)
+                ) {
+                    Text(
+                        text = "About",
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "Details about the app",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = "3 setting",
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+                Text(
+                    text = ">",
+                    modifier = Modifier.padding(end = 10.dp)
+                )
+            }
         }
     }
 }

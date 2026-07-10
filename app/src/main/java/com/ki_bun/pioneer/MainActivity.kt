@@ -23,6 +23,7 @@ import com.ki_bun.pioneer.data.loadThemeMode
 import com.ki_bun.pioneer.data.saveThemeMode
 import com.ki_bun.pioneer.screens.HomeScreen
 import com.ki_bun.pioneer.screens.SettingsScreen
+import com.ki_bun.pioneer.screens.settings.AboutScreen
 import com.ki_bun.pioneer.screens.settings.BackupScreen
 import com.ki_bun.pioneer.screens.settings.PreferenceScreen
 import com.ki_bun.pioneer.ui.theme.PioneerTheme
@@ -95,6 +96,9 @@ class MainActivity : ComponentActivity() {
                                         saveThemeMode(this@MainActivity, selectedTheme)
                                     }
                                 }, themeMode)
+                            }
+                            composable("aboutscreen") {
+                                AboutScreen()
                             }
                         }
                     }
