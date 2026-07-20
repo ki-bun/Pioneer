@@ -1,6 +1,6 @@
 Pioneer is an open source tool to keep track of progress in an efficient way. Whether you are reading a book, .pdf, .epub, watching playlists, anime episodes, manga chapters, or anything else, Pioneer will act as one inventory to manage them, without relying on several different services for each.
 
-It is not just a tracker for watchlists, you can use it as a counter in general since it is optional to specify a maximum value, and also to keep track of a goal, for example, "I am aiming to finish 3 tasks today". 
+It is not just a tracker for watchlists, you can use it as a counter in general since it is optional to specify a maximum value, and also to keep track of a goal.
 
 Features:
 
