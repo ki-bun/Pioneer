@@ -1,0 +1,5 @@
+- Improve settings UI
+- Very minor change in tags chip appearance on cards
+- Add about section in settings
+- Move completed items in a separate section for a cleaner interface
+- Organize files related to settings in code
