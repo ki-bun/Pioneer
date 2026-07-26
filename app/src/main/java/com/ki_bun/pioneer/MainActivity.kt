@@ -34,7 +34,8 @@ import kotlinx.coroutines.launch
 
 enum class Status {
     IN_PROGRESS,
-    COMPLETED
+    COMPLETED,
+    ARCHIVED
 }
 
 class MainActivity : ComponentActivity() {

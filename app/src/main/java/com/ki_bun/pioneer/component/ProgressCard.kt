@@ -65,6 +65,8 @@ fun ProgressCard(
     val newTotal = progressList.total
     val totalString = newTotal ?: nullToString(newTotal)
     val uriHandler = LocalUriHandler.current
+    var newStatus: Status
+    var isArchived = progressList.status == Status.ARCHIVED
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -133,6 +135,21 @@ fun ProgressCard(
                                 onClick = {
                                     onDelete(progressList)
                                     expanded = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(if (!isArchived) "Archive" else "Unarchive") },
+                                onClick = {
+                                    if (!isArchived) {
+                                        newStatus = Status.ARCHIVED
+                                        progressViewModel.updateItem(progressList.copy(status = newStatus))
+                                        isArchived = true
+                                    } else {
+                                        newStatus = Status.IN_PROGRESS
+                                        progressViewModel.updateItem(progressList.copy(status = newStatus))
+                                        isArchived = false
+                                        expanded = false
+                                    }
                                 }
                             )
                         }
@@ -265,6 +282,8 @@ fun ProgressCard(
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
-            val newStatus: Status = if (updatedProgress == progressList.total) Status.COMPLETED else Status.IN_PROGRESS
-            progressViewModel.updateItem(progressList.copy(status = newStatus))
+            if (!isArchived) {
+                newStatus = if (updatedProgress == progressList.total) Status.COMPLETED else Status.IN_PROGRESS
+                progressViewModel.updateItem(progressList.copy(status = newStatus))
+            }
         }

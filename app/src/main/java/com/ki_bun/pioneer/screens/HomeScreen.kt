@@ -52,8 +52,12 @@ fun HomeScreen(
     val completedItems = progress.filter {
         (selectedTag == null || selectedTag!! in it.tags) && it.status == Status.COMPLETED
     }
+    val archivedItems = progress.filter {
+        (selectedTag == null || selectedTag!! in it.tags) && it.status == Status.ARCHIVED
+    }
     var showFilter by remember { mutableStateOf(false) }
     var showCompleted by remember { mutableStateOf(false) }
+    var showArchived by remember { mutableStateOf(false) }
 
     if (showDialog) {
         InputDialog(
@@ -153,6 +157,29 @@ fun HomeScreen(
                 }
                 if (showCompleted) {
                     items(completedItems) { item ->
+                        ProgressCard(
+                            item,
+                            onDelete = {
+                                progressViewModel.deleteItem(item)
+                            },
+                            onEdit = {
+                                selectedItem = item
+                                isEditing = true
+                            },
+                            progressViewModel = progressViewModel
+                        )
+                    }
+                }
+                item {
+                    Button(
+                        onClick = { showArchived = !showArchived },
+                        modifier = Modifier.padding(start = 15.dp, bottom = 10.dp)
+                    ) {
+                        Text(text = if (showArchived) "Hide Archived" else "Show Archived")
+                    }
+                }
+                if (showArchived) {
+                    items(archivedItems) { item ->
                         ProgressCard(
                             item,
                             onDelete = {
