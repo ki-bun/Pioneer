@@ -11,9 +11,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -72,39 +72,37 @@ fun ProgressCard(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (progressList.imagePath != null) {
-            Box(
-                modifier = Modifier
-                    .width(360.dp)
-                    .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
-                    .height(150.dp)
+        Box(
+            modifier = Modifier
+                .width(360.dp)
+                .clip(RoundedCornerShape(10.dp))
+        ) {
+
+            Surface(
+                color = MaterialTheme.colorScheme.surfaceContainerHighest
             ) {
-                AsyncImage(
-                    model = File(progressList.imagePath),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.matchParentSize()
-                )
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .background(
-                            Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.Transparent,
-                                    MaterialTheme.colorScheme.surfaceContainer
+                if (progressList.imagePath != null) {
+                    AsyncImage(
+                        model = File(progressList.imagePath),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.matchParentSize(),
+                        alpha = 0.3f
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .background(
+                                Brush.verticalGradient(
+                                    colors = listOf(
+                                        Color.Transparent,
+                                        MaterialTheme.colorScheme.background.copy(alpha = 0.7f)
+                                    )
                                 )
                             )
-                        )
-                ) {}
-            }
-        }
-            Surface(
-                color = MaterialTheme.colorScheme.surfaceContainer,
-                modifier = Modifier
-                    .width(360.dp)
-                    .clip(if (progressList.imagePath != null) RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp) else RoundedCornerShape(10.dp))
-            ) {
+                    )
+                }
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
@@ -158,47 +156,72 @@ fun ProgressCard(
                 Column(
                     modifier = Modifier.padding(15.dp)
                 ) {
+                    FlowRow {
+                        progressList.tags.forEach { tag ->
+                            Surface(
+                                color = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.clip(RoundedCornerShape(5.dp))
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(horizontal = 5.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        painter = painterResource(
+                                            id = R.drawable.tag_24px),
+                                        contentDescription = "Tag icon",
+                                        modifier = Modifier.size(14.dp))
+                                    Text(tag, fontSize = 10.sp, modifier = Modifier.padding(start = 5.dp))
+                                }
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = progressList.title,
                         fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
                         modifier = Modifier.padding(end = 50.dp),
                         style = if (updatedProgress == progressList.total) TextStyle(textDecoration = TextDecoration.LineThrough) else TextStyle()
                     )
                     Spacer(modifier = Modifier.height(4.dp))
 
                     // Annotate website urls enclosed in <>
-                        val annotatedString = buildAnnotatedString {
-                            val str = progressList.description
-                            val regex = Regex("[<＜].*?\\..*?[>＞]") // Allow either unicode or ascii characters of < and >
-                            val https = Regex("^https://")
-                            var lastIndex = 0
-                            if (regex.containsMatchIn(str)) {
-                                regex.findAll(str).forEach { link ->
-                                    val url = link.value.drop(1).dropLast(1)
-                                    append(str.substring(lastIndex, link.range.first))
-                                    withLink(LinkAnnotation.Clickable(
-                                        tag = "URL",
-                                        linkInteractionListener = {
-                                            if (https.containsMatchIn(url)) {
-                                                uriHandler.openUri(url)
-                                            } else {
-                                                uriHandler.openUri("https:$url")
-                                            }
+                    val annotatedString = buildAnnotatedString {
+                        val str = progressList.description
+                        val regex =
+                            Regex("[<＜].*?\\..*?[>＞]") // Allow either unicode or ascii characters of < and >
+                        val https = Regex("^https://")
+                        var lastIndex = 0
+                        if (regex.containsMatchIn(str)) {
+                            regex.findAll(str).forEach { link ->
+                                val url = link.value.drop(1).dropLast(1)
+                                append(str.substring(lastIndex, link.range.first))
+                                withLink(
+                                    LinkAnnotation.Clickable(
+                                    tag = "URL",
+                                    linkInteractionListener = {
+                                        if (https.containsMatchIn(url)) {
+                                            uriHandler.openUri(url)
+                                        } else {
+                                            uriHandler.openUri("https:$url")
                                         }
-                                    )) {
-                                        append(url)
                                     }
-                                    lastIndex = link.range.last + 1
+                                )) {
+                                    append(url)
                                 }
-                                append(str.substring(lastIndex))
-                            } else {
-                                append(str)
+                                lastIndex = link.range.last + 1
                             }
+                            append(str.substring(lastIndex))
+                        } else {
+                            append(str)
                         }
+                    }
                     Text(
                         annotatedString,
                         modifier = Modifier.padding(end = 50.dp),
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = if (updatedProgress == progressList.total) TextStyle(textDecoration = TextDecoration.LineThrough) else TextStyle()
                     )
@@ -216,70 +239,61 @@ fun ProgressCard(
                         }
                         Spacer(modifier = Modifier.height(10.dp))
                     }
-                        FlowRow {
-                            progressList.tags.forEach { tag ->
-                                AssistChip(
-                                    label = { Text(tag) },
-                                    onClick = {},
-                                    modifier = Modifier.padding(horizontal = 5.dp)
-                                )
-                            }
-                        }
                     Spacer(modifier = Modifier.height(10.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End,
-                            verticalAlignment = Alignment.CenterVertically
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Button(
+                            onClick = {
+                                if (updatedProgress > 0) {
+                                    updatedProgress--
+                                    progressViewModel.updateItem(progressList.copy(progress = updatedProgress))
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.Transparent,
+                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            ),
+                            modifier = Modifier
+                                .width(50.dp)
+                                .height(50.dp),
+                            contentPadding = PaddingValues((0.dp))
                         ) {
-                            Button(
-                                onClick = {
-                                    if (updatedProgress > 0) {
-                                        updatedProgress--
-                                        progressViewModel.updateItem(progressList.copy(progress = updatedProgress))
-                                    }
-                                },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.onPrimary
-                                ),
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .height(50.dp),
-                                contentPadding = PaddingValues((0.dp))
-                            ) {
-                                Icon(
-                                    painterResource(id = R.drawable.sharp_subtract_24),
-                                    contentDescription = "Subtract"
-                                )
-                            }
-                            Text(
-                                text = "${progressList.unit} ${progressList.progress} / $totalString",
-                                modifier = Modifier.padding(start = 10.dp, end = 10.dp)
+                            Icon(
+                                painterResource(id = R.drawable.sharp_subtract_24),
+                                contentDescription = "Subtract"
                             )
-                            Button(
-                                onClick = {
-                                    if (updatedProgress < (newTotal ?: Int.MAX_VALUE)) {
-                                        updatedProgress++
-                                        progressViewModel.updateItem(progressList.copy(progress = updatedProgress))
-                                    }
-                                },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.onPrimary
-                                ),
-                                modifier = Modifier
-                                    .width(50.dp)
-                                    .height(50.dp),
-                                contentPadding = PaddingValues((0.dp))
-                            ) {
-                                Icon(
-                                    painterResource(id = R.drawable.sharp_add_24),
-                                    contentDescription = "Add"
-                                )
-                            }
+                        }
+                        Text(
+                            text = "${progressList.unit} ${progressList.progress} / $totalString"
+                        )
+                        Button(
+                            onClick = {
+                                if (updatedProgress < (newTotal ?: Int.MAX_VALUE)) {
+                                    updatedProgress++
+                                    progressViewModel.updateItem(progressList.copy(progress = updatedProgress))
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.Transparent,
+                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            ),
+                            modifier = Modifier
+                                .width(50.dp)
+                                .height(50.dp),
+                            contentPadding = PaddingValues((0.dp))
+                        ) {
+                            Icon(
+                                painterResource(id = R.drawable.sharp_add_24),
+                                contentDescription = "Add"
+                            )
                         }
                     }
                 }
+            }
+        }
             }
             Spacer(modifier = Modifier.height(10.dp))
             if (!isArchived) {
