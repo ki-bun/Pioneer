@@ -79,7 +79,7 @@ fun ProgressCard(
         ) {
 
             Surface(
-                color = MaterialTheme.colorScheme.surfaceContainerHighest
+                color = MaterialTheme.colorScheme.surfaceContainer
             ) {
                 if (progressList.imagePath != null) {
                     AsyncImage(
