@@ -161,7 +161,9 @@ fun ProgressCard(
                             Surface(
                                 color = MaterialTheme.colorScheme.primary,
                                 contentColor = MaterialTheme.colorScheme.onPrimary,
-                                modifier = Modifier.clip(RoundedCornerShape(5.dp))
+                                modifier = Modifier
+                                    .padding(end = 3.dp)
+                                    .clip(RoundedCornerShape(5.dp))
                             ) {
                                 Row(
                                     modifier = Modifier.padding(horizontal = 5.dp),
@@ -171,7 +173,7 @@ fun ProgressCard(
                                         painter = painterResource(
                                             id = R.drawable.tag_24px),
                                         contentDescription = "Tag icon",
-                                        modifier = Modifier.size(14.dp))
+                                        modifier = Modifier.size(12.dp))
                                     Text(tag, fontSize = 10.sp, modifier = Modifier.padding(start = 5.dp))
                                 }
                             }
