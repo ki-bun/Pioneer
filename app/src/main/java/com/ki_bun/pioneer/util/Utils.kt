@@ -61,3 +61,10 @@ fun nullToString(value: Int?): String {
 fun isNumeric(str: String): Boolean {
     return str.matches(Regex("^(0|[1-9]\\d*)$"))
 }
+
+fun normalizeTags(tags: String): List<String> {
+    return tags.split(",")
+        .map { it.trim().lowercase() }
+        .filter { it.isNotEmpty() }
+        .distinct()
+}

@@ -55,6 +55,7 @@ import com.ki_bun.pioneer.R
 import com.ki_bun.pioneer.data.Item
 import com.ki_bun.pioneer.util.countWarning
 import com.ki_bun.pioneer.util.isNumeric
+import com.ki_bun.pioneer.util.normalizeTags
 import com.ki_bun.pioneer.util.totalWarning
 import com.ki_bun.pioneer.util.validateCount
 import com.ki_bun.pioneer.util.validateTotal
@@ -193,8 +194,7 @@ fun InputDialog(
                                     description = inputDescription,
                                     progress = inputCount.toInt(),
                                     total = if (inputTotal != progressList.total.toString()) newTotal else progressList.total,
-                                    tags = inputTags.split(",").map { it.trim() }
-                                        .filter { it.isNotEmpty() },
+                                    tags = normalizeTags(inputTags),
                                     imagePath = inputImage,
                                     unit = inputUnit
                                 )
@@ -206,8 +206,7 @@ fun InputDialog(
                                     description = inputDescription,
                                     progress = inputCount.toInt(),
                                     total = newTotal,
-                                    tags = inputTags.split(",").map { it.trim() }
-                                        .filter { it.isNotEmpty() },
+                                    tags = normalizeTags(inputTags),
                                     imagePath = inputImage,
                                     unit = inputUnit
                                 )
