@@ -46,7 +46,7 @@ fun SettingsScreen(
                         contentDescription = "Back button"
                     )
                 }
-                Text(text = "  Settings", fontSize = 24.sp)
+                Text(text = "Settings", fontSize = 24.sp, modifier = Modifier.padding(start = 5.dp))
             }
 
             // Apperance and behavior

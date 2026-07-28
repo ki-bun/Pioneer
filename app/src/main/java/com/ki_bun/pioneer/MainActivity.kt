@@ -88,10 +88,10 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             composable("backupscreen") {
-                                BackupScreen(progressViewModel)
+                                BackupScreen(navController, progressViewModel)
                             }
                             composable("preferencescreen") {
-                                PreferenceScreen(onThemeModeChange = { selectedTheme ->
+                                PreferenceScreen(navController, onThemeModeChange = { selectedTheme ->
                                     themeMode = selectedTheme
                                     lifecycleScope.launch {
                                         saveThemeMode(this@MainActivity, selectedTheme)
@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
                                 }, themeMode)
                             }
                             composable("aboutscreen") {
-                                AboutScreen()
+                                AboutScreen(navController)
                             }
                         }
                     }
