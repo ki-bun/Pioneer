@@ -254,10 +254,6 @@ fun ProgressCard(
                                     progressViewModel.updateItem(progressList.copy(progress = updatedProgress))
                                 }
                             },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Transparent,
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                            ),
                             modifier = Modifier
                                 .width(50.dp)
                                 .height(50.dp),
@@ -269,7 +265,8 @@ fun ProgressCard(
                             )
                         }
                         Text(
-                            text = "${progressList.unit} ${progressList.progress} / $totalString"
+                            text = "${progressList.unit} ${progressList.progress} / $totalString",
+                            modifier = Modifier.padding(horizontal = 10.dp)
                         )
                         Button(
                             onClick = {
@@ -278,10 +275,6 @@ fun ProgressCard(
                                     progressViewModel.updateItem(progressList.copy(progress = updatedProgress))
                                 }
                             },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Transparent,
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                            ),
                             modifier = Modifier
                                 .width(50.dp)
                                 .height(50.dp),
