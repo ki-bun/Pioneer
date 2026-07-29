@@ -1,0 +1,7 @@
+- Polish settings and home screen user interface
+- Add archive feature
+- Lowercase and remove duplicate tags before saving them into the database. This will not apply to items already in the database, but you can update them by going into the edit screen and then clicking on save.
+- Clean and optimize some parts of the code
+- Move image into the background
+- Change tags appearance and position in cards
+- Adjust font sizes
