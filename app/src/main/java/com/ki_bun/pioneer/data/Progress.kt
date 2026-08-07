@@ -17,7 +17,8 @@ data class Item(
     @ColumnInfo(defaultValue = "") val tags: List<String> = emptyList(),
     val imagePath: String? = null,
     val unit: String,
-    val status: Status = Status.IN_PROGRESS
+    val status: Status = Status.IN_PROGRESS,
+    val packageName: String
 )
 
 class Converters {

@@ -1,7 +1,11 @@
 package com.ki_bun.pioneer.screens
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -17,8 +21,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +53,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -62,6 +70,8 @@ import com.ki_bun.pioneer.util.validateTotal
 import kotlinx.coroutines.flow.filter
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.collections.filter
+import kotlin.collections.sortedBy
 
 var showDialog by mutableStateOf(false)
 
@@ -73,6 +83,7 @@ const val maxCount = 4
 // InputDialog's behavior changes depending on the state of this variable
 var isEditing by mutableStateOf(false)
 
+@SuppressLint("QueryPermissionsNeeded")
 @Composable
 fun InputDialog(
     progressList: Item?,
@@ -96,8 +107,11 @@ fun InputDialog(
     var inputTags by remember { mutableStateOf(if (isEditing) progressList!!.tags.joinToString(",") else "") }
     var inputImage by remember { mutableStateOf(if (isEditing) progressList!!.imagePath else null) }
     var inputUnit by remember {mutableStateOf(if (isEditing) progressList!!.unit else "")}
+    var inputPackageName by remember { mutableStateOf(if (isEditing) progressList!!.packageName else "")}
 
     var newTotal: Int? by remember { mutableStateOf(null) }
+
+    var showPicker by remember { mutableStateOf(false)}
 
     countWarning = if (isEditing) "" else "Field cannot be empty"
 
@@ -196,7 +210,8 @@ fun InputDialog(
                                     total = if (inputTotal != progressList.total.toString()) newTotal else progressList.total,
                                     tags = normalizeTags(inputTags),
                                     imagePath = inputImage,
-                                    unit = inputUnit
+                                    unit = inputUnit,
+                                    packageName = inputPackageName
                                 )
                                 onUpdate(newItem)
                                 onDismiss()
@@ -208,7 +223,8 @@ fun InputDialog(
                                     total = newTotal,
                                     tags = normalizeTags(inputTags),
                                     imagePath = inputImage,
-                                    unit = inputUnit
+                                    unit = inputUnit,
+                                    packageName = inputPackageName
                                 )
                                 onUpdate(newItem)
                                 resetValues()
@@ -398,7 +414,8 @@ fun InputDialog(
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
                         Text(text = "Unit (Optional):", fontSize = 12.sp)
@@ -413,6 +430,28 @@ fun InputDialog(
                             }
                         )
                     }
+                    Row(
+                        modifier = Modifier.padding(horizontal = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        if (inputPackageName.trim().isNotEmpty()) {
+                            Text(inputPackageName, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
+                            IconButton(
+                                onClick = { inputPackageName = "" }
+                            ) {
+                                Icon(painterResource(id = R.drawable.close_24px), contentDescription = "removeapp")
+                            }
+                        } else {
+                            Button(
+                                onClick = {showPicker = true },
+                                modifier = Modifier.padding(horizontal = 10.dp)
+                            ) {
+                                Icon(painter = painterResource(id = R.drawable.sharp_add_24), contentDescription = "chooseapp")
+                                Text("Choose App")
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -422,6 +461,45 @@ fun InputDialog(
                 .collect {
                     focusRequester.requestFocus()
                 }
+        }
+        if (showPicker) {
+            Dialog(onDismissRequest = {
+                showPicker = false
+            }) {
+                val context = LocalContext.current
+                val pm = context.packageManager
+
+                val apps = remember {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        pm.getInstalledApplications(PackageManager.ApplicationInfoFlags.of(0))
+                            .filter {
+                                it.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                            }
+                            .sortedBy {
+                                pm.getApplicationLabel(it).toString().lowercase()
+                            }
+                    } else {
+                        TODO("VERSION.SDK_INT < TIRAMISU")
+                    }
+                }
+
+                Surface(modifier = Modifier.padding(10.dp).fillMaxSize()) {
+                    LazyColumn {
+                        items(apps, key = { it.packageName }) { app ->
+                            Text(
+                                text = pm.getApplicationLabel(app).toString(),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        inputPackageName = app.packageName
+                                        showPicker = false
+                                    }
+                                    .padding(16.dp)
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }

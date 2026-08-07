@@ -1,5 +1,6 @@
 package com.ki_bun.pioneer.component
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -35,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.LinkAnnotation
@@ -67,6 +68,7 @@ fun ProgressCard(
     val uriHandler = LocalUriHandler.current
     var newStatus: Status
     var isArchived = progressList.status == Status.ARCHIVED
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -244,46 +246,65 @@ fun ProgressCard(
                     Spacer(modifier = Modifier.height(10.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End,
+                        horizontalArrangement = Arrangement.SpaceAround,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Button(
-                            onClick = {
-                                if (updatedProgress > 0) {
-                                    updatedProgress--
-                                    progressViewModel.updateItem(progressList.copy(progress = updatedProgress))
-                                }
-                            },
-                            modifier = Modifier
-                                .width(50.dp)
-                                .height(50.dp),
-                            contentPadding = PaddingValues((0.dp))
-                        ) {
-                            Icon(
-                                painterResource(id = R.drawable.sharp_subtract_24),
-                                contentDescription = "Subtract"
-                            )
+                        if (progressList.packageName.isNotEmpty()) {
+                            IconButton(onClick = {
+                                val intent = context.packageManager.getLaunchIntentForPackage(progressList.packageName)
+                                Log.d("Launch","Intent = $intent")
+                                context.startActivity(intent)
+
+                            }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.outline_exit_to_app_24),
+                                    contentDescription = "app"
+                                )
+                            }
                         }
-                        Text(
-                            text = "${progressList.unit} ${progressList.progress} / $totalString",
-                            modifier = Modifier.padding(horizontal = 10.dp)
-                        )
-                        Button(
-                            onClick = {
-                                if (updatedProgress < (newTotal ?: Int.MAX_VALUE)) {
-                                    updatedProgress++
-                                    progressViewModel.updateItem(progressList.copy(progress = updatedProgress))
-                                }
-                            },
-                            modifier = Modifier
-                                .width(50.dp)
-                                .height(50.dp),
-                            contentPadding = PaddingValues((0.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(
-                                painterResource(id = R.drawable.sharp_add_24),
-                                contentDescription = "Add"
+                            Button(
+                                onClick = {
+                                    if (updatedProgress > 0) {
+                                        updatedProgress--
+                                        progressViewModel.updateItem(progressList.copy(progress = updatedProgress))
+                                    }
+                                },
+                                modifier = Modifier
+                                    .width(50.dp)
+                                    .height(50.dp),
+                                contentPadding = PaddingValues((0.dp))
+                            ) {
+                                Icon(
+                                    painterResource(id = R.drawable.sharp_subtract_24),
+                                    contentDescription = "Subtract"
+                                )
+                            }
+                            Text(
+                                text = "${progressList.unit} ${progressList.progress} / $totalString",
+                                modifier = Modifier.padding(horizontal = 10.dp)
                             )
+                            Button(
+                                onClick = {
+                                    if (updatedProgress < (newTotal ?: Int.MAX_VALUE)) {
+                                        updatedProgress++
+                                        progressViewModel.updateItem(progressList.copy(progress = updatedProgress))
+                                    }
+                                },
+                                modifier = Modifier
+                                    .width(50.dp)
+                                    .height(50.dp),
+                                contentPadding = PaddingValues((0.dp))
+                            ) {
+                                Icon(
+                                    painterResource(id = R.drawable.sharp_add_24),
+                                    contentDescription = "Add"
+                                )
+                            }
                         }
                     }
                 }

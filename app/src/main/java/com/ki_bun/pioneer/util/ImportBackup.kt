@@ -19,7 +19,8 @@ fun parseCSV(csvText: String): List<Item> {
                     progress = cols.getOrNull(2)?.toIntOrNull() ?: 0,
                     total = cols.getOrNull(3)?.toIntOrNull(),
                     tags = if (cols.getOrNull(4) != null) cols.getOrNull(4)!!.split(",") else emptyList(),
-                    unit = cols.getOrNull(5) ?: ""
+                    unit = cols.getOrNull(5) ?: "",
+                    packageName = cols.getOrNull(6) ?: ""
                 )
                 items.add(item)
             } catch (e: Exception) {
