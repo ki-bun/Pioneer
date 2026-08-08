@@ -401,7 +401,8 @@ fun InputDialog(
                         )
                     },
                     placeholder = { Text(text = "Enter a brief description") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    maxLines = 3
                 )
                 Text(text = "Tags (Optional):", fontSize = 12.sp)
                 OutlinedTextField(
