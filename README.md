@@ -45,7 +45,7 @@ You can get the latest version from [Github Releases](https://github.com/ki-bun/
 ### Building a signed release
 
 1. Make a file named `secrets.properties` and add values to the following:
-```
+```properties
 PIONEER_STORE_PASSWORD=
 PIONEER_KEY_PASSWORD=
 PIONEER_KEY_ALIAS=
