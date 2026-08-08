@@ -39,10 +39,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.LinkAnnotation
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -186,8 +184,7 @@ fun ProgressCard(
                         text = progressList.title,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
-                        modifier = Modifier.padding(end = 50.dp),
-                        style = if (updatedProgress == progressList.total) TextStyle(textDecoration = TextDecoration.LineThrough) else TextStyle()
+                        modifier = Modifier.padding(end = 50.dp)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
 
@@ -226,8 +223,7 @@ fun ProgressCard(
                         annotatedString,
                         modifier = Modifier.padding(end = 50.dp),
                         fontSize = 13.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = if (updatedProgress == progressList.total) TextStyle(textDecoration = TextDecoration.LineThrough) else TextStyle()
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
                     if (progressList.total != null) {
