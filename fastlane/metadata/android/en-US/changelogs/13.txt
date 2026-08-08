@@ -1,0 +1,4 @@
+- You can now select an app shortcut with the item you are currently tracking. This currently does not work on devices running below Android 13
+- Add navigation drawer to reduce clutter on the main screen and organize items based on their status
+- Limit description input field to a maximum of 3 lines
+- Remove text styling on title and description
