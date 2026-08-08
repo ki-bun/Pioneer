@@ -1,23 +1,56 @@
 # Pioneer
 
-Pioneer is an open source tool to keep track of progress in an efficient way. Whether you are reading a book, .pdf, .epub, watching playlists, anime episodes, manga chapters, or anything else, Pioneer will act as one inventory to manage them, without relying on several different services for each.
+**An open source tool to keep track of progress.**
 
-It is not just a tracker for watchlists, you can use it as a counter in general since it is optional to specify a maximum value, and also to keep track of a goal.
+Whether you are reading a book, PDF, EPUB, watching playlists, anime episodes, manga chapters, or anything else, this application will act as one inventory to manage them, without relying on several different services for each.
+
+This project was made primarily to **support my learning process**, because I needed to keep track of the learning resources I was learning from. 
+
+## Download 
 
 You can get the latest version from [Github Releases](https://github.com/ki-bun/Pioneer/releases) or from the following app stores:
 
-[<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.ki_bun.pioneer)
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height="80">](https://apt.izzysoft.de/fdroid/index/apk/com.ki_bun.pioneer)
+- [F-Droid](https://f-droid.org/packages/com.ki_bun.pioneer)
+- [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.ki_bun.pioneer)
 
 ## Features
 
-- Material 3 dynamic theme
-- Local and offline progress tracking, no accounts or internet connection required
-- Adding, deleting, and editing progress
-- Privacy focused progress tracking app with no data collection, analytics, and telemetery
-- Optional description and maximum value
-- Import and export to CSV
-- Display tags and image
+- **Material 3 dynamic theme**
+- **Local** and **offline** progress tracking, no accounts or internet connection required
+- Adding, deleting, archiving, and editing progress
+- **Privacy focused** progress tracking app with no data collection, analytics, and telemetery
+- **Import** and **export** to CSV
+- Categorize into **tags**
+- Display **images** for better visibility
+- Supports **highlighting links** in description
+- Supports adding **application shortcuts**
+- **Open source** and **ad-free**
+
+## Screenshots
+
+<table>
+	<tr>
+		<td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot_1.png" alt="screenshot_1"></td>
+		<td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot_2.png" alt="screenshot_2"></td>
+		<td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot_3.png" alt="screenshot_3"></td>
+		<td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot_4.png" alt="screenshot_4"></td>
+	</tr>
+</table>
+
+## Build the app
+
+1. Clone this repository
+2. Run `./gradlew assembleDebug` or open it in Android Studio and run it from there
+
+### Building a signed release
+
+1. Make a file named `secrets.properties` and add values to the following:
+```
+PIONEER_STORE_PASSWORD=
+PIONEER_KEY_PASSWORD=
+PIONEER_KEY_ALIAS=
+```
+2. Run `./gradlew assembleRelease`
 
 ## License
-Pioneer is a free and open source project licensed under the GNU General Public License v3.0
+Pioneer is a free and open source project licensed under the **GNU General Public License v3.0**
