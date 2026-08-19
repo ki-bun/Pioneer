@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -24,6 +25,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import coil3.compose.AsyncImage
 import com.ki_bun.pioneer.viewmodel.ProgressViewModel
 import com.ki_bun.pioneer.R
@@ -52,10 +55,11 @@ import com.ki_bun.pioneer.data.Item
 import com.ki_bun.pioneer.util.nullToString
 import java.io.File
 
+var showDeleteDialog by mutableStateOf(false)
+
 @Composable
 fun ProgressCard(
     progressList: Item,
-    onDelete: (Item) -> Unit,
     onEdit: (Item) -> Unit,
     progressViewModel: ProgressViewModel
 ) {
@@ -67,6 +71,35 @@ fun ProgressCard(
     var newStatus: Status
     var isArchived = progressList.status == Status.ARCHIVED
     val context = LocalContext.current
+
+    if (showDeleteDialog) {
+        Dialog(
+            onDismissRequest = {showDeleteDialog = false}
+        ) {
+            Card {
+                Column(
+                    modifier = Modifier.padding(15.dp)
+                ) {
+                    Text("Confirm delete?")
+                    Row {
+                        TextButton(
+                            onClick = {showDeleteDialog = false}
+                        ) {
+                            Text("Dismiss")
+                        }
+                        TextButton(
+                            onClick = {
+                                progressViewModel.deleteItem(progressList)
+                                showDeleteDialog = false
+                            }
+                        ) {
+                            Text("Confirm")
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -131,7 +164,7 @@ fun ProgressCard(
                             DropdownMenuItem(
                                 text = { Text("Delete") },
                                 onClick = {
-                                    onDelete(progressList)
+                                    showDeleteDialog = true
                                     expanded = false
                                 }
                             )

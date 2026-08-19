@@ -196,9 +196,6 @@ fun HomeScreen(
                     ) { item ->
                         ProgressCard(
                             item,
-                            onDelete = {
-                                progressViewModel.deleteItem(item)
-                            },
                             onEdit = {
                                 selectedItem = item
                                 isEditing = true
