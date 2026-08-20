@@ -330,6 +330,19 @@ fun InputDialog(
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             Column {
+                                Text(text = "Unit (Optional):", fontSize = 12.sp)
+                                OutlinedTextField(
+                                    modifier = Modifier.width(100.dp),
+                                    placeholder = { Text(text = "ep, ch, ...") },
+                                    value = inputUnit,
+                                    onValueChange = { newText ->
+                                        if (newText.length <= 5) {
+                                            inputUnit = newText
+                                        }
+                                    }
+                                )
+                            }
+                            Column {
                                 Text(text = "Current progress:", fontSize = 12.sp)
                                 OutlinedTextField(
                                     modifier = Modifier.width(100.dp),
@@ -418,39 +431,20 @@ fun InputDialog(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column {
-                        Text(text = "Unit (Optional):", fontSize = 12.sp)
-                        OutlinedTextField(
-                            modifier = Modifier.width(100.dp),
-                            placeholder = { Text(text = "ep, ch, ...") },
-                            value = inputUnit,
-                            onValueChange = { newText ->
-                                if (newText.length <= 5) {
-                                    inputUnit = newText
-                                }
-                            }
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.padding(horizontal = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        if (inputPackageName.trim().isNotEmpty()) {
-                            Text(inputPackageName, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
-                            IconButton(
-                                onClick = { inputPackageName = "" }
-                            ) {
-                                Icon(painterResource(id = R.drawable.close_24px), contentDescription = "removeapp")
-                            }
-                        } else {
-                            Button(
-                                onClick = {showPicker = true },
-                                modifier = Modifier.padding(horizontal = 10.dp)
-                            ) {
-                                Icon(painter = painterResource(id = R.drawable.sharp_add_24), contentDescription = "chooseapp")
-                                Text("Choose App")
-                            }
+                    if (inputPackageName.trim().isNotEmpty()) {
+                        Text(inputPackageName, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
+                        IconButton(
+                            onClick = { inputPackageName = "" }
+                        ) {
+                            Icon(painterResource(id = R.drawable.close_24px), contentDescription = "removeapp")
+                        }
+                    } else {
+                        Button(
+                            onClick = {showPicker = true },
+                            modifier = Modifier.padding(horizontal = 10.dp)
+                        ) {
+                            Icon(painter = painterResource(id = R.drawable.sharp_add_24), contentDescription = "chooseapp")
+                            Text("Choose App")
                         }
                     }
                 }
