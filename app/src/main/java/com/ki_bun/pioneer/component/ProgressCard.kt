@@ -102,12 +102,13 @@ fun ProgressCard(
     }
 
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
-                .width(360.dp)
                 .clip(RoundedCornerShape(10.dp))
         ) {
 
