@@ -231,8 +231,8 @@ fun InputDialog(
                             }
                         }) {
                         Icon(painterResource(
-                            id = R.drawable.send_24px),
-                            contentDescription = "Enter"
+                            id = R.drawable.save_24px),
+                            contentDescription = "Save"
                         )
                     }
                 }
@@ -293,7 +293,7 @@ fun InputDialog(
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 Icon(
-                                    painterResource(id = R.drawable.hide_image_24px),
+                                    painterResource(id = R.drawable.baseline_image_24),
                                     contentDescription = "No image"
                                 )
                                 Text(text = "Click to select an image (Optional)", fontSize = 14.sp)
