@@ -173,15 +173,19 @@ fun HomeScreen(
                 if (showFilter) {
                     LazyRow {
                         item {
-                            progress.flatMap { it.tags }.groupingBy { it }.eachCount().forEach { (tag,_) ->
-                                FilterChip(
-                                    selected = selectedTag == tag,
-                                    onClick = {
-                                        selectedTag = if (selectedTag == tag) null else tag
-                                    },
-                                    label = { Text(text = tag) },
-                                    modifier = Modifier.padding(horizontal = 5.dp)
-                                )
+                            if (progress.flatMap{it.tags}.isEmpty()) {
+                                Text("No tags to show")
+                            } else {
+                                progress.flatMap { it.tags }.groupingBy { it }.eachCount().forEach { (tag,_) ->
+                                    FilterChip(
+                                        selected = selectedTag == tag,
+                                        onClick = {
+                                            selectedTag = if (selectedTag == tag) null else tag
+                                        },
+                                        label = { Text(text = tag) },
+                                        modifier = Modifier.padding(horizontal = 5.dp)
+                                    )
+                                }
                             }
                         }
                     }
