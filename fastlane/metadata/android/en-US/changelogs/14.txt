@@ -1,0 +1,5 @@
+- Add confirmation dialog when deleting a progress
+- Clarify filter button behavior
+- Replace icons with appropriate alternatives
+- Move unit text field position
+- Adjust home screen card padding
