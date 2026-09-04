@@ -18,7 +18,8 @@ data class Item(
     val imagePath: String? = null,
     val unit: String,
     val status: Status = Status.IN_PROGRESS,
-    val packageName: String
+    val packageName: String,
+    val position: Int
 )
 
 class Converters {

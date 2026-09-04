@@ -20,7 +20,8 @@ fun parseCSV(csvText: String): List<Item> {
                     total = cols.getOrNull(3)?.toIntOrNull(),
                     tags = if (cols.getOrNull(4) != null) cols.getOrNull(4)!!.split(",") else emptyList(),
                     unit = cols.getOrNull(5) ?: "",
-                    packageName = cols.getOrNull(6) ?: ""
+                    packageName = cols.getOrNull(6) ?: "",
+                    position = cols[7].toInt()
                 )
                 items.add(item)
             } catch (e: Exception) {

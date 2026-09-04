@@ -17,10 +17,13 @@ interface ItemDao {
     @Update
     suspend fun update(item: Item)
 
+    @Update
+    suspend fun updateAll(item: List<Item>)
+
     @Delete
     suspend fun delete(item: Item)
 
-    @Query("SELECT * from items")
+    @Query("SELECT * from items ORDER BY position")
     fun getAllItems(): Flow<List<Item>>
 
     @Query("SELECT * FROM items")

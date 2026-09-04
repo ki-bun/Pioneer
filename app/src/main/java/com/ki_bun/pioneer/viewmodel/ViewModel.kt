@@ -47,6 +47,18 @@ class ProgressViewModel(private val itemDao: ItemDao) : ViewModel() {
         }
     }
 
+    fun updateList(items: List<Item>) {
+        val updatedItems = items.mapIndexed { index, item ->
+            item.copy(position = index)
+        }
+
+        _progressList.value = updatedItems
+
+        viewModelScope.launch {
+            itemDao.updateAll(updatedItems)
+        }
+    }
+
     fun deleteItem(item: Item) {
         viewModelScope.launch {
             itemDao.delete(item)

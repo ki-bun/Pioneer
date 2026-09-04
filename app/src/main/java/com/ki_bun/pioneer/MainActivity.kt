@@ -79,7 +79,10 @@ class MainActivity : ComponentActivity() {
                                 HomeScreen(
                                     progressViewModel,
                                     progress = progressList,
-                                    navController
+                                    navController,
+                                    onListChange = { newList ->
+                                        progressViewModel.updateList(newList)
+                                    }
                                 )
                             }
                             composable("settings") {

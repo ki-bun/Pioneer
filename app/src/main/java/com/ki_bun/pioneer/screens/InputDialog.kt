@@ -88,7 +88,8 @@ var isEditing by mutableStateOf(false)
 fun InputDialog(
     progressList: Item?,
     onUpdate: (Item) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    allItems: List<Item>
     ) {
 
     val focusRequester = remember { FocusRequester() }
@@ -224,7 +225,8 @@ fun InputDialog(
                                     tags = normalizeTags(inputTags),
                                     imagePath = inputImage,
                                     unit = inputUnit,
-                                    packageName = inputPackageName
+                                    packageName = inputPackageName,
+                                    position = allItems.size
                                 )
                                 onUpdate(newItem)
                                 resetValues()

@@ -55,8 +55,6 @@ import com.ki_bun.pioneer.data.Item
 import com.ki_bun.pioneer.util.nullToString
 import java.io.File
 
-var showDeleteDialog by mutableStateOf(false)
-
 @Composable
 fun ProgressCard(
     progressList: Item,
@@ -71,10 +69,13 @@ fun ProgressCard(
     var newStatus: Status
     var isArchived = progressList.status == Status.ARCHIVED
     val context = LocalContext.current
+    var itemToDelete by remember { mutableStateOf<Item?>(null)}
 
-    if (showDeleteDialog) {
+    if (itemToDelete != null) {
         Dialog(
-            onDismissRequest = {showDeleteDialog = false}
+            onDismissRequest = {
+                itemToDelete = null
+            }
         ) {
             Card {
                 Column(
@@ -83,14 +84,14 @@ fun ProgressCard(
                     Text("Confirm delete?")
                     Row {
                         TextButton(
-                            onClick = {showDeleteDialog = false}
+                            onClick = {itemToDelete = null}
                         ) {
                             Text("Dismiss")
                         }
                         TextButton(
                             onClick = {
-                                progressViewModel.deleteItem(progressList)
-                                showDeleteDialog = false
+                                progressViewModel.deleteItem(itemToDelete!!)
+                                itemToDelete = null
                             }
                         ) {
                             Text("Confirm")
@@ -103,7 +104,7 @@ fun ProgressCard(
 
     Column(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -165,7 +166,7 @@ fun ProgressCard(
                             DropdownMenuItem(
                                 text = { Text("Delete") },
                                 onClick = {
-                                    showDeleteDialog = true
+                                    itemToDelete = progressList
                                     expanded = false
                                 }
                             )

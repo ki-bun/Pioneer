@@ -1,5 +1,6 @@
 package com.ki_bun.pioneer.screens
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
@@ -22,6 +24,7 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -41,6 +44,8 @@ import com.ki_bun.pioneer.Status
 import com.ki_bun.pioneer.component.ProgressCard
 import com.ki_bun.pioneer.data.Item
 import kotlinx.coroutines.launch
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyListState
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.flatMap
@@ -49,7 +54,8 @@ import kotlin.collections.flatMap
 fun HomeScreen(
     progressViewModel: ProgressViewModel,
     progress: List<Item>,
-    navController: NavController
+    navController: NavController,
+    onListChange: (List<Item>) -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -67,6 +73,28 @@ fun HomeScreen(
     }
     var showFilter by remember { mutableStateOf(false) }
     var selectedList by remember { mutableStateOf(Status.IN_PROGRESS)}
+    val lazyListState = rememberLazyListState()
+    val displayedItems = when (selectedList) {
+        Status.COMPLETED -> completedItems
+        Status.ARCHIVED -> archivedItems
+        else -> ongoingItems
+    }
+    val reorderableLazyListState =
+        rememberReorderableLazyListState(lazyListState) { from, to ->
+
+            val newList = progress.toMutableList()
+
+            val fromItem = displayedItems[from.index]
+            val toItem = displayedItems[to.index]
+
+            val fromIndex = newList.indexOfFirst { it.id == fromItem.id }
+            val toIndex = newList.indexOfFirst { it.id == toItem.id }
+
+            val item = newList.removeAt(fromIndex)
+            newList.add(toIndex, item)
+
+            onListChange(newList)
+        }
 
     if (showDialog) {
         InputDialog(
@@ -75,7 +103,8 @@ fun HomeScreen(
                 progressViewModel.addItem(newItem)
                 showDialog = false
             },
-            onDismiss = {}
+            onDismiss = {},
+            allItems = progress
         )
     }
 
@@ -190,22 +219,26 @@ fun HomeScreen(
                         }
                     }
                 }
-                LazyColumn {
-                    items(
-                        when (selectedList) {
-                            Status.COMPLETED -> completedItems
-                            Status.ARCHIVED -> archivedItems
-                            else -> ongoingItems
-                        }
+                LazyColumn(state = lazyListState) {
+                    items(displayedItems, key = { it.id }
                     ) { item ->
-                        ProgressCard(
-                            item,
-                            onEdit = {
-                                selectedItem = item
-                                isEditing = true
-                            },
-                            progressViewModel = progressViewModel
-                        )
+                        ReorderableItem(reorderableLazyListState, key = item.id) { isDragging ->
+                            val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
+
+                            Surface(
+                                modifier = Modifier.longPressDraggableHandle(),
+                                shadowElevation = elevation
+                            ) {
+                                ProgressCard(
+                                    item,
+                                    onEdit = {
+                                        selectedItem = item
+                                        isEditing = true
+                                    },
+                                    progressViewModel = progressViewModel
+                                )
+                            }
+                        }
                     }
                     item {
                         Spacer(modifier = Modifier.height(100.dp))
@@ -222,7 +255,8 @@ fun HomeScreen(
                         },
                         onDismiss = {
                             isEditing = false
-                        }
+                        },
+                        allItems = progress
                     )
                 }
             }
