@@ -1,0 +1,2 @@
+- Fix versioning problem in GitHub releases
+- Add support for reordering items (long press the item and move it vertically)
