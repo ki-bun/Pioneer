@@ -101,4 +101,5 @@ dependencies {
     implementation("com.opencsv:opencsv:5.12.0")
     implementation("io.coil-kt.coil3:coil-compose:3.4.0")
     implementation("androidx.core:core-splashscreen:1.2.0")
+    implementation("sh.calvin.reorderable:reorderable:3.1.0")
 }
